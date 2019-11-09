@@ -124,3 +124,11 @@ CREATE TABLE DETALLE_ALUMNO_MATRICULA
 );
 
 INSERT INTO DETALLE_ALUMNO_MATRICULA VALUES('M00001','72280703');
+/*Procedimientos almacenados*/
+DELIMITER $$
+CREATE PROCEDURE usp_validaUsuario(usr char(6), pas varchar(20))
+BEGIN
+select * from TB_USUARIO
+ where COD_USUARIO=usr and CONTRASEÑA = pas;
+END $$
+DELIMITER ;

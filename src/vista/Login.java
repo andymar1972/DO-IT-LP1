@@ -6,13 +6,21 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import mantenimientos.GestionUsuario;
+import model.Usuario;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
 
@@ -75,6 +83,11 @@ public class Login extends JFrame {
 		contentPane.add(txtPassword);
 		
 		JButton btnIngresar = new JButton("Ingresar");
+		btnIngresar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				validaAcceso();
+			}
+		});
 		btnIngresar.setBounds(478, 245, 111, 32);
 		contentPane.add(btnIngresar);
 		
@@ -82,5 +95,22 @@ public class Login extends JFrame {
 		lblNewLabel_1.setIcon(new ImageIcon(Login.class.getResource("/img/logo.jpg")));
 		lblNewLabel_1.setBounds(37, 98, 252, 140);
 		contentPane.add(lblNewLabel_1);
+	}
+	void validaAcceso() {
+		String usuario,contraseña;
+		usuario=txtUsuario.getText();
+		contraseña=txtPassword.getText();
+		GestionUsuario gu=new GestionUsuario();
+		Usuario u=gu.validaAcceso(usuario, contraseña);
+		if(u==null) {
+			JOptionPane.showMessageDialog(null,"Usuario o clave incorrecta");
+		}else {
+			JOptionPane.showMessageDialog(null,u.saludo());
+			FrmPrincipal p=new FrmPrincipal();
+			p.setVisible(true);
+			p.setExtendedState(MAXIMIZED_BOTH);
+			dispose();
+		}
+		
 	}
 }
