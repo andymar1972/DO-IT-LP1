@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import hilos.HiloCerrar;
 import mantenimientos.GestionUsuario;
 import model.Usuario;
 
@@ -21,12 +22,15 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.SystemColor;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Login extends JFrame {
-
-	private JPanel contentPane;
 	private JTextField txtUsuario;
 	private JPasswordField txtPassword;
+	public static JLabel lblTiempo;
+	private JPanel contentPane;
 
 	/**
 	 * Launch the application.
@@ -57,6 +61,7 @@ public class Login extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setLocationRelativeTo(null);
 		
 		JLabel lblInicioDeSesin = new JLabel("Inicio De Sesi\u00F3n");
 		lblInicioDeSesin.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -95,6 +100,14 @@ public class Login extends JFrame {
 		lblNewLabel_1.setIcon(new ImageIcon(Login.class.getResource("/img/logo.jpg")));
 		lblNewLabel_1.setBounds(37, 98, 252, 140);
 		contentPane.add(lblNewLabel_1);
+		
+		lblTiempo = new JLabel("");
+		lblTiempo.setForeground(new Color(255, 165, 0));
+		lblTiempo.setBackground(SystemColor.menu);
+		lblTiempo.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblTiempo.setBounds(236, 298, 232, 20);
+		contentPane.add(lblTiempo);
+		iniciaTiempo();
 	}
 	void validaAcceso() {
 		String usuario,contraseña;
@@ -111,6 +124,9 @@ public class Login extends JFrame {
 			p.setExtendedState(MAXIMIZED_BOTH);
 			dispose();
 		}
-		
+	}
+	void iniciaTiempo() {
+		HiloCerrar hilo=new HiloCerrar(Login.this);
+		hilo.start();
 	}
 }

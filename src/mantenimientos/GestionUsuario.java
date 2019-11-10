@@ -19,11 +19,18 @@ public class GestionUsuario implements UsuarioInterface {
 		PreparedStatement pst=null;
 		try {
 			con=MySQLConexion.getConexion();
-			String sql="(call usp_validaAcceso (?,?))";
+			String sql="call usp_validaUsuario(?,?)";
 			pst=con.prepareStatement(sql);
 			pst.setString(1, usuario);
 			pst.setString(2, contraseña);
 			rs=pst.executeQuery();
+			while(rs.next()) {
+				u=new Usuario();
+				u.setCodUsuario(rs.getString(1));
+				u.setContraseña(rs.getString(2));
+				u.setPrimerNombre(rs.getString(3));
+				u.setApellidoPaterno(rs.getString(5));
+			}
 		} catch (Exception e) {
 			System.out.println("Error en la sentencia "+e.getMessage());
 		}finally {
