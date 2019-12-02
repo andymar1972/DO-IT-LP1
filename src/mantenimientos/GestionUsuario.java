@@ -46,4 +46,10 @@ public class GestionUsuario implements UsuarioInterface {
 		}
 		return u;
 	}
+
+	@Override
+	public Usuario actualizaPerfil(Usuario u) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
