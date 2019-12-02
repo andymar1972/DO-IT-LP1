@@ -1,8 +1,10 @@
 package model;
 
 public class Usuario {
-	private String codUsuario,contraseña,primerNombre,segundoNombre,apellidoPaterno,
+	
+	private String nombresUsuario,apellidoPaterno,
 	apellidoMaterno,fechaNacimiento,cargo;
+	private static String codUsuario,contraseña;
 
 	public String getCodUsuario() {
 		return codUsuario;
@@ -19,21 +21,13 @@ public class Usuario {
 	public void setContraseña(String contraseña) {
 		this.contraseña = contraseña;
 	}
-
-	public String getPrimerNombre() {
-		return primerNombre;
+	
+	public String getNombresUsuario() {
+		return nombresUsuario;
 	}
 
-	public void setPrimerNombre(String primerNombre) {
-		this.primerNombre = primerNombre;
-	}
-
-	public String getSegundoNombre() {
-		return segundoNombre;
-	}
-
-	public void setSegundoNombre(String segundoNombre) {
-		this.segundoNombre = segundoNombre;
+	public void setNombresUsuario(String nombresUsuario) {
+		this.nombresUsuario = nombresUsuario;
 	}
 
 	public String getApellidoPaterno() {
@@ -63,12 +57,12 @@ public class Usuario {
 	public String getCargo() {
 		return cargo;
 	}
-
+	
 	public void setCargo(String cargo) {
 		this.cargo = cargo;
 	}
 	//Metodos Propios
 	public String saludo() {
-		return "Bienvenido "+primerNombre+" "+apellidoPaterno;
+		return "Bienvenido "+nombresUsuario+" "+apellidoPaterno;
 	}
 }

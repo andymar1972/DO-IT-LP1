@@ -25,7 +25,6 @@ public class FrmRegistraMatricula extends JInternalFrame {
 			}
 		});
 	}
-
 	/**
 	 * Create the frame.
 	 */
@@ -53,6 +52,5 @@ public class FrmRegistraMatricula extends JInternalFrame {
 		textField.setColumns(10);
 		textField.setBounds(81, 79, 96, 20);
 		getContentPane().add(textField);
-
 	}
 }

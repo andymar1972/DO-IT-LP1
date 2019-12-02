@@ -109,10 +109,13 @@ public class Login extends JFrame {
 		contentPane.add(lblTiempo);
 		iniciaTiempo();
 	}
+	//public static String nombre,contra;
 	void validaAcceso() {
 		String usuario,contraseña;
 		usuario=txtUsuario.getText();
+		//nombre=usuario;
 		contraseña=txtPassword.getText();
+		//contra=contraseña;
 		GestionUsuario gu=new GestionUsuario();
 		Usuario u=gu.validaAcceso(usuario, contraseña);
 		if(u==null) {
