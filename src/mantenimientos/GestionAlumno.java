@@ -42,4 +42,38 @@ public class GestionAlumno implements AlumnoInterface {
 		}}
 		return rs;
 	}
+
+	@Override
+	public int eliminar(Alumno a) {
+		
+		return 0;
+	}
+
+	@Override
+	public int modificar(Alumno a) {
+		int rs=0;
+		Connection con=null;
+		PreparedStatement pst =null;
+		try {
+			con=MySQLConexion.getConexion();
+			String sql="DELETE TB_ALUMNO where DNI_ALUMNO=?;";
+			pst=con.prepareStatement(sql);
+			//parametros
+			
+			pst.setString(1, a.getDni());
+			rs=pst.executeUpdate();
+		}catch(Exception e) {
+			System.out.print("Error en la sentencia ..." +e);
+		}finally {
+			try {
+				if(pst!=null)
+					pst.close();
+				if(con!=null)
+					con.close();
+			}catch(SQLException e) {
+				System.out.print("error al cerrar");
+			}
+		}
+		return rs;
+	}
 }
