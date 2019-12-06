@@ -69,8 +69,7 @@ public class GestionAlumno implements AlumnoInterface {
 				System.out.print("error al cerrar");
 			}
 		}
-		return rs;
-		
+		return rs;	
 	}
 
 	@Override
