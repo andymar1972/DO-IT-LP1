@@ -45,8 +45,32 @@ public class GestionAlumno implements AlumnoInterface {
 
 	@Override
 	public int eliminar(Alumno a) {
+		int rs=0;
+		Connection con=null;
+		PreparedStatement pst =null;
+		try {
+			con=MySQLConexion.getConexion();
+			String sql="delete TB_ALUMNO where DNI_ALUMNO=?;";
+			pst=con.prepareStatement(sql);
+			//parametros
+			
+			
+			pst.setString(1, a.getDni());
+			rs=pst.executeUpdate();
+		}catch(Exception e) {
+			System.out.print("Error en la sentencia ..." +e);
+		}finally {
+			try {
+				if(pst!=null)
+					pst.close();
+				if(con!=null)
+					con.close();
+			}catch(SQLException e) {
+				System.out.print("error al cerrar");
+			}
+		}
+		return rs;
 		
-		return 0;
 	}
 
 	@Override
@@ -56,11 +80,20 @@ public class GestionAlumno implements AlumnoInterface {
 		PreparedStatement pst =null;
 		try {
 			con=MySQLConexion.getConexion();
-			String sql="DELETE TB_ALUMNO where DNI_ALUMNO=?;";
+			String sql="update TB_ALUMNO set NOMBRES_ALUMNO=?,APELLIDO_PATERNO=?, APELLIDO_MATERNO=?, CONTRASEÑA_ALUMNO=?,CELULAR_ALU_CONTACTO=?, FONO_ALU_CONTACTO=?,CORREO_ALU_CONTACTO=?,FECHA_NAC=?,ESTADO=? where DNI_ALUMNO=?;";
 			pst=con.prepareStatement(sql);
 			//parametros
 			
-			pst.setString(1, a.getDni());
+			pst.setString(1,a.getNombre());
+			pst.setString(2,a.getApellidoP());
+			pst.setString(3,a.getApellidoM());
+			pst.setString(4,a.getContraseña());
+			pst.setString(5,a.getCelular());
+			pst.setString(6, a.getTelefono());
+			pst.setString(7,a.getCorreo());
+			pst.setString(8,a.getFechaN());
+			pst.setString(9,a.getEstado());
+			pst.setString(10, a.getDni());
 			rs=pst.executeUpdate();
 		}catch(Exception e) {
 			System.out.print("Error en la sentencia ..." +e);
