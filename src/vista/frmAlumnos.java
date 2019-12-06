@@ -29,7 +29,7 @@ import java.awt.event.ActionEvent;
 public class frmAlumnos extends JFrame {
 	
 	
-
+//nel
 	private JPanel contentPane;
 	private JTextField txtDni;
 	private JTextField txtNombres;
