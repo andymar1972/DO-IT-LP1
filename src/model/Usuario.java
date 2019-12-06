@@ -3,7 +3,14 @@ package model;
 public class Usuario {
 	
 	private String nombresUsuario,apellidoPaterno,
-	apellidoMaterno,fechaNacimiento,cargo;
+	apellidoMaterno,fechaNacimiento,cargo,estado;
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
 	private static String codUsuario,contraseña;
 
 	public String getCodUsuario() {

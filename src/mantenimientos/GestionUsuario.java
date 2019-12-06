@@ -33,6 +33,7 @@ public class GestionUsuario implements UsuarioInterface {
 				u.setApellidoMaterno(rs.getString(5));
 				u.setFechaNacimiento(rs.getString(6));
 				u.setCargo(rs.getString(7));
+				u.setEstado(rs.getString(8));
 			}
 		} catch (Exception e) {
 			System.out.println("Error en la sentencia "+e.getMessage());
