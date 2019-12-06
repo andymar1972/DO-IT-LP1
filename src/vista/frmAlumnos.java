@@ -38,7 +38,6 @@ public class frmAlumnos extends JFrame {
 	private JTextField txtTelefono;
 	private JTextField txtCorreo;
 	private JDateChooser FechaNac;
-	private JComboBox cboEstado;
 	private JTable table;
 	//tipo de operacion
 	private int tipoOperacion;
@@ -47,6 +46,7 @@ public class frmAlumnos extends JFrame {
 	public final static int MODIFICAR=1;
 	public final static int ELIMINAR=2;
 	private JTextField txtMaterno;
+	private JTextField txtEstado;
 	
 
 	/**
@@ -171,10 +171,6 @@ public class frmAlumnos extends JFrame {
 		lblEstado.setBounds(10, 309, 105, 19);
 		panel.add(lblEstado);
 		
-		cboEstado = new JComboBox();
-		cboEstado.setBounds(113, 310, 95, 20);
-		panel.add(cboEstado);
-		
 		JLabel lblApMaterno = new JLabel("Ap Materno");
 		lblApMaterno.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblApMaterno.setBounds(10, 125, 86, 19);
@@ -184,6 +180,11 @@ public class frmAlumnos extends JFrame {
 		txtMaterno.setColumns(10);
 		txtMaterno.setBounds(113, 127, 184, 20);
 		panel.add(txtMaterno);
+		
+		txtEstado = new JTextField();
+		txtEstado.setBounds(113, 310, 86, 20);
+		panel.add(txtEstado);
+		txtEstado.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(382, 58, 667, 306);
@@ -209,6 +210,11 @@ public class frmAlumnos extends JFrame {
 		contentPane.add(btnNewButton);
 		
 		JButton btnModificar = new JButton("Modificar");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Actualizar();
+			}
+		});
 		btnModificar.setBounds(181, 402, 118, 37);
 		contentPane.add(btnModificar);
 		
@@ -246,7 +252,7 @@ public class frmAlumnos extends JFrame {
 	}
 	void adicionar(){
 		Alumno a=new Alumno();
-		Date date;
+		
 		String dni,nombre,apellidoP,apellidoM,contraseña,
 		celular,telefono,correo,fechaN;
 		//leendo
@@ -279,6 +285,44 @@ public class frmAlumnos extends JFrame {
 		}
 	}
 	
+	void Actualizar() {
+Alumno a=new Alumno();
+		
+		String dni,nombre,apellidoP,apellidoM,contraseña,
+		celular,telefono,correo,estado,fechaN;
+		//leendo
+		dni=leerDni();
+		nombre=leerNombre();
+		apellidoP=leerApellioP();
+		apellidoM=leerApellidoM();
+		contraseña=leerContraseña();
+		celular=leerCelular();
+		telefono=leerTelefono();
+		correo=leerCorreo();
+		estado=leerestado();
+		fechaN=leerFecha();
+		//intanciamos alumnos
+		a.setDni(dni);
+		a.setNombre(nombre);
+		a.setApellidoP(apellidoP);
+		a.setApellidoM(apellidoM);
+		a.setContraseña(contraseña);
+		a.setCelular(celular);
+		a.setTelefono(telefono);
+		a.setCorreo(correo);
+		a.setEstado(estado);
+		a.setFechaN(fechaN);
+		//intanciamos la clase gestion
+		GestionAlumno ga=new GestionAlumno();
+		int ok=ga.modificar(a);
+		if(ok==0) {
+			System.out.print("Error");
+		}else {
+			System.out.print("Registro ok");
+		}
+		
+	}
+	
 	String leerDni() {
 		return txtDni.getText();
 	}
@@ -302,6 +346,9 @@ public class frmAlumnos extends JFrame {
 	}
 	String leerCorreo() {
 		return txtCorreo.getText();
+	}
+	String leerestado() {
+		return txtEstado.getText();
 	}
 	String leerFecha() {
 		
