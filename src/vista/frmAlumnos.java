@@ -13,6 +13,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.border.BevelBorder;
 import com.toedter.calendar.JDateChooser;
 
+import mantenimientos.GestionAlumno;
 import mantenimientos.GestionUsuario;
 import model.Alumno;
 
@@ -28,8 +29,6 @@ import java.awt.event.ActionEvent;
 
 public class frmAlumnos extends JFrame {
 	
-	
-//nel
 	private JPanel contentPane;
 	private JTextField txtDni;
 	private JTextField txtNombres;
@@ -271,8 +270,8 @@ public class frmAlumnos extends JFrame {
 		a.setCorreo(correo);
 		a.setFechaN(fechaN);
 		//intanciamos la clase gestion
-		GestionUsuario gu=new GestionUsuario();
-		int ok=gu.Agregar(a);
+		GestionAlumno ga=new GestionAlumno();
+		int ok=ga.Agregar(a);
 		if(ok==0) {
 			System.out.print("Error");
 		}else {
