@@ -14,9 +14,9 @@ public class MySQLConexion {
 			String psw = "mysql";
 			con = DriverManager.getConnection(url, usr, psw);
 		} catch (ClassNotFoundException ex) {
-			System.out.println("Error >> Driver no Instalado!!");
+			System.out.println("Error >> Driver no Instalado!!"  +ex.getMessage());
 		} catch (SQLException ex) {
-			System.out.println("Error >> de conexión con la BD");
+			System.out.println("Error >> de conexión con la BD" +ex.getMessage());
 		}
 		return con;
 	}
