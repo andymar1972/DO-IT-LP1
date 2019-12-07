@@ -16,6 +16,7 @@ import com.toedter.calendar.JDateChooser;
 import mantenimientos.GestionAlumno;
 import mantenimientos.GestionUsuario;
 import model.Alumno;
+import utils.MySQLConexion;
 
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -23,6 +24,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ActionEvent;
@@ -38,7 +43,6 @@ public class frmAlumnos extends JFrame {
 	private JTextField txtTelefono;
 	private JTextField txtCorreo;
 	private JDateChooser FechaNac;
-	private JTable table;
 	//tipo de operacion
 	private int tipoOperacion;
 	
@@ -47,6 +51,7 @@ public class frmAlumnos extends JFrame {
 	public final static int ELIMINAR=2;
 	private JTextField txtMaterno;
 	private JTextField txtEstado;
+	private JTable tblRegistro;
 	
 
 	/**
@@ -70,7 +75,7 @@ public class frmAlumnos extends JFrame {
 	 */
 	public frmAlumnos() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1075, 478);
+		setBounds(100, 100, 1179, 497);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -83,7 +88,7 @@ public class frmAlumnos extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Datos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 52, 362, 339);
+		panel.setBounds(10, 52, 319, 339);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -186,27 +191,14 @@ public class frmAlumnos extends JFrame {
 		panel.add(txtEstado);
 		txtEstado.setColumns(10);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(382, 58, 667, 306);
-		contentPane.add(scrollPane);
-		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"DNI", "Nombres", "Ap Paterno", "Contrase\u00F1a", "Celular", "Telefono", "Correo", "Fecha", "Estado"
-			}
-		));
-		scrollPane.setViewportView(table);
-		
 		JButton btnNewButton = new JButton("Agregar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				habilitarEntradas(true);
+				adicionar();
 			}
 		});
-		btnNewButton.setBounds(53, 402, 118, 37);
+
+		btnNewButton.setBounds(30, 402, 118, 37);
 		contentPane.add(btnNewButton);
 		
 		JButton btnModificar = new JButton("Modificar");
@@ -215,31 +207,63 @@ public class frmAlumnos extends JFrame {
 				Actualizar();
 			}
 		});
-		btnModificar.setBounds(181, 402, 118, 37);
+		btnModificar.setBounds(158, 402, 118, 37);
 		contentPane.add(btnModificar);
 		
 		JButton btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBounds(309, 402, 118, 37);
+		btnEliminar.setBounds(289, 402, 118, 37);
 		contentPane.add(btnEliminar);
 		
-		JButton btnAceptar = new JButton("Aceptar");
-		btnAceptar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			   switch(tipoOperacion) {
-			   case ADICIONAR:
-				   adicionar();
-				   break;
-			   }
-			}
-		});
-		btnAceptar.setBounds(629, 380, 118, 37);
-		contentPane.add(btnAceptar);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(339, 64, 814, 302);
+		contentPane.add(scrollPane);
 		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(785, 380, 118, 37);
-		contentPane.add(btnCancelar);
+		tblRegistro = new JTable();
+		scrollPane.setViewportView(tblRegistro);
+		 mostrar();
 	}
-	
+	void mostrar() {
+		MySQLConexion cc=new MySQLConexion();
+		Connection con=MySQLConexion.getConexion();
+		String[] titulos= {"DNI","Nombre","AplellidoP","ApellidoM","Contraseña","celular","telefono","correo","fechaN","estado"};
+		String[] registros=new String[10];
+		
+		DefaultTableModel modelo =new DefaultTableModel(null,titulos);
+		String sql ="select * from TB_ALUMNO";
+		
+		try {
+			Statement st=con.createStatement();
+			ResultSet rs=st.executeQuery(sql);
+			
+			while(rs.next()) {
+				registros[0]=rs.getString("DNI_ALUMNO");
+				registros[1]=rs.getString("NOMBRES_ALUMNO");
+				registros[2]=rs.getString("APELLIDO_PATERNO");
+				registros[3]=rs.getString("APELLIDO_MATERNO");
+				registros[4]=rs.getString("CONTRASEÑA_ALUMNO");
+				registros[5]=rs.getString("CELULAR_ALU_CONTACTO");
+				registros[6]=rs.getString("FONO_ALU_CONTACTO");
+				registros[7]=rs.getString("CORREO_ALU_CONTACTO");
+				registros[8]=rs.getString("FECHA_NAC");
+				registros[9]=rs.getString("ESTADO");
+				modelo.addRow(registros);
+			}
+			tblRegistro.setModel(modelo);
+			tblRegistro.getColumnModel().getColumn(0).setPreferredWidth(200);
+			tblRegistro.getColumnModel().getColumn(1).setPreferredWidth(250);
+			tblRegistro.getColumnModel().getColumn(2).setPreferredWidth(250);
+			tblRegistro.getColumnModel().getColumn(3).setPreferredWidth(250);
+			tblRegistro.getColumnModel().getColumn(4).setPreferredWidth(200);
+			tblRegistro.getColumnModel().getColumn(5).setPreferredWidth(200);
+			tblRegistro.getColumnModel().getColumn(6).setPreferredWidth(200);
+			tblRegistro.getColumnModel().getColumn(7).setPreferredWidth(350);
+			tblRegistro.getColumnModel().getColumn(8).setPreferredWidth(200);
+			tblRegistro.getColumnModel().getColumn(9).setPreferredWidth(200);
+		} catch (Exception e) {
+			System.out.print("error al cargar " +e.getMessage());
+		}
+		
+	}
 	void habilitarEntradas(boolean sino) {
 		txtDni.setEditable(sino);
 		txtNombres.setEditable(sino);
@@ -275,6 +299,7 @@ public class frmAlumnos extends JFrame {
 		a.setTelefono(telefono);
 		a.setCorreo(correo);
 		a.setFechaN(fechaN);
+		mostrar();
 		//intanciamos la clase gestion
 		GestionAlumno ga=new GestionAlumno();
 		int ok=ga.Agregar(a);
@@ -322,6 +347,7 @@ Alumno a=new Alumno();
 		}
 		
 	}
+	
 	
 	String leerDni() {
 		return txtDni.getText();
