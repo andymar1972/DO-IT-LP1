@@ -34,7 +34,6 @@ public class FrmConfigurarPerfil extends JInternalFrame {
 	private JTextField txtApellidoPaterno;
 	private JTextField txtApellidoMaterno;
 	private JDateChooser txtFecha;
-	private JTextField txtUsuario;
 
 	/**
 	 * Launch the application.
@@ -60,12 +59,12 @@ public class FrmConfigurarPerfil extends JInternalFrame {
 		setMaximizable(true);
 		setIconifiable(true);
 		setClosable(true);
-		setBounds(100, 100, 369, 337);
+		setBounds(100, 100, 371, 311);
 		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos Personales", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(153, 180, 209)));
-		panel.setBounds(10, 11, 336, 221);
+		panel.setBounds(10, 11, 336, 199);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -81,50 +80,39 @@ public class FrmConfigurarPerfil extends JInternalFrame {
 		
 		JLabel lblApellidos = new JLabel("Apellido Paterno");
 		lblApellidos.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblApellidos.setBounds(10, 103, 114, 22);
+		lblApellidos.setBounds(10, 80, 114, 22);
 		panel.add(lblApellidos);
 		
 		txtApellidoPaterno = new JTextField();
 		txtApellidoPaterno.setColumns(10);
-		txtApellidoPaterno.setBounds(134, 105, 189, 20);
+		txtApellidoPaterno.setBounds(134, 82, 189, 20);
 		panel.add(txtApellidoPaterno);
 		
 		txtApellidoMaterno = new JTextField();
 		txtApellidoMaterno.setColumns(10);
-		txtApellidoMaterno.setBounds(134, 138, 189, 20);
+		txtApellidoMaterno.setBounds(134, 115, 189, 20);
 		panel.add(txtApellidoMaterno);
 		
 		JLabel lblApellidoMaterno = new JLabel("Apellido Materno");
 		lblApellidoMaterno.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblApellidoMaterno.setBounds(10, 136, 114, 22);
+		lblApellidoMaterno.setBounds(10, 113, 114, 22);
 		panel.add(lblApellidoMaterno);
 		
 		JLabel lblFechaNacimiento = new JLabel("Fecha Nacimiento");
 		lblFechaNacimiento.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblFechaNacimiento.setBounds(10, 177, 101, 22);
+		lblFechaNacimiento.setBounds(10, 154, 101, 22);
 		panel.add(lblFechaNacimiento);
 		
 		txtFecha = new JDateChooser();
-		txtFecha.setBounds(134, 177, 189, 20);
+		txtFecha.setBounds(134, 154, 189, 20);
 		panel.add(txtFecha);
 		
-		JLabel lblUsuario = new JLabel("Usuario");
-		lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblUsuario.setBounds(10, 69, 94, 22);
-		panel.add(lblUsuario);
-		
-		txtUsuario = new JTextField();
-		txtUsuario.setText((String) null);
-		txtUsuario.setColumns(10);
-		txtUsuario.setBounds(134, 71, 189, 20);
-		panel.add(txtUsuario);
-		
-		JButton btnNewButton = new JButton("holo");
-		btnNewButton.setBounds(122, 243, 114, 43);
+		JButton btnNewButton = new JButton("GUARDAR");
+		btnNewButton.setBounds(118, 221, 114, 43);
 		getContentPane().add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println(leerFecha());
+				cambiarPerfil();
 			}
 		});
 		listarPerfil();
@@ -132,9 +120,8 @@ public class FrmConfigurarPerfil extends JInternalFrame {
 	void listarPerfil() {
 		Usuario u=new Usuario();
 		GestionUsuario gu=new GestionUsuario();
-		u=gu.validaAcceso(u.getCodUsuario(),u.getContraseña());
+		u=gu.validaAcceso(u.getDniUsuario(),u.getContraseña());
 		txtNombres.setText(u.getNombresUsuario());
-		txtUsuario.setText(u.getCodUsuario());
 		txtApellidoPaterno.setText(u.getApellidoPaterno());
 		txtApellidoMaterno.setText(u.getApellidoMaterno());
 		txtFecha.setDateFormatString("yyyy-MM-dd");
@@ -148,18 +135,26 @@ public class FrmConfigurarPerfil extends JInternalFrame {
 		}
 	}
 	void cambiarPerfil() {
-		String nombres,usuario,apellidoPaterno,apellidoMaterno,fecha;
+		String nombres,apellidoPaterno,apellidoMaterno,fecha;
 		nombres=leerNombres();
-		usuario=leerUsuario();
 		apellidoPaterno=leerApellidoPaterno();
 		apellidoMaterno=leerApellidoMaterno();
 		fecha=leerFecha();
+		Usuario u=new Usuario();
+		u.setNombresUsuario(nombres);
+		u.setApellidoPaterno(apellidoPaterno);
+		u.setApellidoMaterno(apellidoMaterno);
+		u.setFechaNacimiento(fecha);
+		GestionUsuario gu=new GestionUsuario();
+		int ok=gu.actualizaPerfil(u);
+		if(ok==0) {
+			JOptionPane.showMessageDialog(null, "Error");
+		}else {
+			JOptionPane.showMessageDialog(null, "Datos actualizados");
+		}
 	}
 	String leerNombres() {
 		return txtNombres.getText();
-	}
-	String leerUsuario() {
-		return txtUsuario.getText();
 	}
 	String leerApellidoPaterno() {
 		return txtApellidoPaterno.getText();

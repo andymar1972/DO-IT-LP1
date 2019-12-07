@@ -27,7 +27,7 @@ public class GestionUsuario implements UsuarioInterface {
 			rs=pst.executeQuery();
 			while(rs.next()) {
 				u=new Usuario();
-				u.setCodUsuario(rs.getString(1));
+				u.setDniUsuario(rs.getString(1));
 				u.setContraseña(rs.getString(2));
 				u.setNombresUsuario(rs.getString(3));
 				u.setApellidoPaterno(rs.getString(4));
@@ -48,11 +48,35 @@ public class GestionUsuario implements UsuarioInterface {
 		}
 		return u;
 	}
-
 	@Override
-	public Usuario actualizaPerfil(Usuario u) {
-		// TODO Auto-generated method stub
-		return null;
+	public int actualizaPerfil(Usuario u) {
+		int rs=0;
+		Connection con=null;
+		PreparedStatement pst =null;
+		try {
+			con=MySQLConexion.getConexion();
+			String sql="call usp_actualizaUsuario(?,?,?,?,?)";
+			pst=con.prepareStatement(sql);
+			//parametros
+			pst.setString(1,u.getNombresUsuario());
+			pst.setString(2,u.getApellidoPaterno());
+			pst.setString(3,u.getApellidoMaterno());
+			pst.setString(4,u.getFechaNacimiento());
+			pst.setString(5, u.getDniUsuario());
+			rs=pst.executeUpdate();
+		}catch(Exception e) {
+			System.out.print("Error en la sentencia ..." +e.getMessage());
+		}finally {
+			try {
+				if(pst!=null)
+					pst.close();
+				if(con!=null)
+					con.close();
+			}catch(SQLException e) {
+				System.out.print("error al cerrar " +e.getMessage());
+			}
+		}
+		return rs;
 	}
 
 	

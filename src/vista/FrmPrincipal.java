@@ -110,7 +110,7 @@ public class FrmPrincipal extends JFrame {
 		desktopPanel.setLayout(null);
 		getContentPane().setLayout(groupLayout);
 		Usuario u=new Usuario();
-		System.out.println(u.getCodUsuario()+u.getContraseña());
+		System.out.println(u.getDniUsuario()+u.getContraseña());
 	}
 	void cargarConfigurarPerfil() {
 		FrmConfigurarPerfil cp=new FrmConfigurarPerfil();

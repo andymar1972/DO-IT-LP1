@@ -4,6 +4,7 @@ public class Usuario {
 	
 	private String nombresUsuario,apellidoPaterno,
 	apellidoMaterno,fechaNacimiento,cargo,estado;
+	private static String dniUsuario,contraseña;
 	public String getEstado() {
 		return estado;
 	}
@@ -11,14 +12,12 @@ public class Usuario {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	private static String codUsuario,contraseña;
-
-	public String getCodUsuario() {
-		return codUsuario;
+	public static String getDniUsuario() {
+		return dniUsuario;
 	}
 
-	public void setCodUsuario(String codUsuario) {
-		this.codUsuario = codUsuario;
+	public static void setDniUsuario(String dniUsuario) {
+		Usuario.dniUsuario = dniUsuario;
 	}
 
 	public String getContraseña() {
