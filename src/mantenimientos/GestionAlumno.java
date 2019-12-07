@@ -82,7 +82,6 @@ public class GestionAlumno implements AlumnoInterface {
 			String sql="update TB_ALUMNO set NOMBRES_ALUMNO=?,APELLIDO_PATERNO=?, APELLIDO_MATERNO=?, CONTRASEÑA_ALUMNO=?,CELULAR_ALU_CONTACTO=?, FONO_ALU_CONTACTO=?,CORREO_ALU_CONTACTO=?,FECHA_NAC=?,ESTADO=? where DNI_ALUMNO=?;";
 			pst=con.prepareStatement(sql);
 			//parametros
-			
 			pst.setString(1,a.getNombre());
 			pst.setString(2,a.getApellidoP());
 			pst.setString(3,a.getApellidoM());

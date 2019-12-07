@@ -27,6 +27,7 @@ import java.awt.FlowLayout;
 
 public class FrmPrincipal extends JFrame {
 	private JDesktopPane desktopPanel;
+	private JMenuItem mntmNewMenuItem_1;
 
 	/**
 	 * Launch the application.
@@ -67,11 +68,16 @@ public class FrmPrincipal extends JFrame {
 		JMenuItem mntmNewMenuItem = new JMenuItem("Registrar");
 		mnNewMenu_2.add(mntmNewMenuItem);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Matenimiento");
-		mnNewMenu_2.add(mntmNewMenuItem_1);
+		JMenu mnNewMenu_4 = new JMenu("Mantenimiento");
+		menuBar.add(mnNewMenu_4);
 		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Consulta");
-		mnNewMenu_2.add(mntmNewMenuItem_2);
+		mntmNewMenuItem_1 = new JMenuItem("Alumnos");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cargarMantenimientoAlumnos();
+			}
+		});
+		mnNewMenu_4.add(mntmNewMenuItem_1);
 		
 		JMenu mnNewMenu_3 = new JMenu("Configuraci\u00F3n");
 		menuBar.add(mnNewMenu_3);
@@ -110,5 +116,10 @@ public class FrmPrincipal extends JFrame {
 		FrmConfigurarPerfil cp=new FrmConfigurarPerfil();
 		desktopPanel.add(cp);
 		cp.setVisible(true);
+	}
+	void cargarMantenimientoAlumnos() {
+		frmAlumnos fa=new frmAlumnos();
+		desktopPanel.add(fa);
+		fa.setVisible(true);
 	}
 }

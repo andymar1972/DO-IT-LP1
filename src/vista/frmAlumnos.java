@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
@@ -32,7 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 
-public class frmAlumnos extends JFrame {
+public class frmAlumnos extends JInternalFrame {
 	
 	private JPanel contentPane;
 	private JTextField txtDni;
@@ -74,6 +75,8 @@ public class frmAlumnos extends JFrame {
 	 * Create the frame.
 	 */
 	public frmAlumnos() {
+		setClosable(true);
+		setIconifiable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1179, 497);
 		contentPane = new JPanel();
